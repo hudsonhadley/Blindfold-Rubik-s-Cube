@@ -5,6 +5,8 @@
 #
 # By Hudson Hadley
 
+import math
+
 # The spreadsheet is a 2D array of words for AA - XX
 # The get word function takes in a letter pair and outputs a word
 from objects import spread_sheet, get_word
@@ -23,8 +25,17 @@ from typo_network import network, lowest_cost
 import numpy as np
 
 
-# This will help with spell check
-from functions import key_distance
+def key_distance(k1, k2):
+    keys = {"1": (0, 0), "2": (0, 1), "3": (0, 2), "4": (0, 3), "5": (0, 4), "6": (0, 5), "7": (0 , 6), "8": (0, 7), "9": (0, 8), "0": (0, 9), "-": (0, 10), "=": (0, 11),
+            "Q": (1, 0.25), "W": (1, 1.25), "E": (1, 2.25), "R": (1, 3.25), "T": (1, 4.25), "Y": (1, 5.25), "U": (1, 6.25), "I": (1, 7.25), "O": (1, 8.25), "P": (1, 9.25), "[": (1, 10.25), "]": (1, 11.25), "\\": (1, 12.25),
+            "A": (2, 0.5), "S": (2, 1.5), "D": (2, 2.5), "F": (2, 3.5), "G": (2, 4.5), "H": (2, 5.5), "J": (2, 6.5), "K": (2, 7.5), "L": (2, 8.5), ";": (2, 9.5), "'": (2, 10.5),
+            "Z": (3, 1), "X": (3, 2), "C": (3, 3), "V": (3, 4), "B": (3, 5), "N": (3, 6), "M": (3, 7), ",": (3, 8), ".": (3, 9), "/": (3, 10)}
+
+
+    if k1 not in keys or k2 not in keys:
+        return -1
+
+    return math.sqrt(((keys[k1][0] - keys[k2][0]) ** 2) + ((keys[k1][1] - keys[k2][1]) ** 2))
 
 def levenshtein_distance(word1, word2):
     # Create a matrix to store the distances between substrings
@@ -47,24 +58,6 @@ def levenshtein_distance(word1, word2):
             )
 
     return matrix[len(word1)][len(word2)]
-
-
-def keyboard_distance(key1, key2):
-    key_positions = {
-    "q": (0, 0), "w": (1, 0), "e": (2, 0), "r": (3, 0), "t": (4, 0), "y": (5, 0), "u": (6, 0), "i": (7, 0), "o": (8, 0), "p": (9, 0),
-    "a": (0.5, 1), "s": (1.5, 1), "d": (2.5, 1), "f": (3.5, 1), "g": (4.5, 1), "h": (5.5, 1), "j": (6.5, 1), "k": (7.5, 1), "l": (8.5, 1),
-    "z": (1, 2), "x": (2, 2), "c": (3, 2), "v": (4, 2), "b": (5, 2), "n": (6, 2), "m": (7, 2)
-    }
-    
-    if key1 not in key_positions or key2 not in key_positions:
-        return -1  # Return -1 if either of the keys is not found in the dictionary
-
-    pos1 = key_positions[key1]
-    pos2 = key_positions[key2]
-
-    # Calculate Euclidean distance between the two key positions
-    distance = math.sqrt((pos1[0] - pos2[0])**2 + (pos1[1] - pos2[1])**2)
-    return distance
     
 
 # Tests if the guess is correct
