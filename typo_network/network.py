@@ -17,19 +17,12 @@ import matplotlib.pyplot as plt
 import os
 import sys
 
-# Since we run the program from 3BLD and not typo_network we need to change path to access these files
-sys.path.insert(0, "/Users/Hudson/Programs/Python/3BLD/typo_network")
 # lowest_cost needs to have lowest_cost, epochs, mini_batch_size, eta, weights, and biases
-import lowest_cost
+import typo_network.lowest_cost
 # tested needs to have tested and costs
-import tested
+import typo_network.tested
 # default_parameters needs to have weights and biases
-import default_parameters
-
-
-# Change the path to just Python so we can access functions
-sys.path.insert(0, "/Users/Hudson/Programs/Python")
-from functions import send_message
+import typo_network.default_parameters
 
 
 # np.exp will be raising e to the power of some big numbers in the cost function which will trigger a warning about the
