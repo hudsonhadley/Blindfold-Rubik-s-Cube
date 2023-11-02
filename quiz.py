@@ -22,13 +22,50 @@ from typo_network import network, lowest_cost
 # We need numpy for the input layer of the neural network
 import numpy as np
 
-import sys
-
-# Change the path to just Python so we can access functions
-sys.path.insert(0, "/Users/Hudson/Programs/Python")
 
 # This will help with spell check
-from functions import levenshtein_distance, key_distance
+from functions import key_distance
+
+def levenshtein_distance(word1, word2):
+    # Create a matrix to store the distances between substrings
+    matrix = [[0] * (len(word2) + 1) for _ in range(len(word1) + 1)]
+
+    # Initialize the first row and column of the matrix
+    for i in range(len(word1) + 1):
+        matrix[i][0] = i
+    for j in range(len(word2) + 1):
+        matrix[0][j] = j
+
+    # Calculate the Levenshtein distance
+    for i in range(1, len(word1) + 1):
+        for j in range(1, len(word2) + 1):
+            cost = 0 if word1[i - 1] == word2[j - 1] else 1
+            matrix[i][j] = min(
+                matrix[i - 1][j] + 1,  # Deletion
+                matrix[i][j - 1] + 1,  # Insertion
+                matrix[i - 1][j - 1] + cost,  # Substitution
+            )
+
+    return matrix[len(word1)][len(word2)]
+
+
+def keyboard_distance(key1, key2):
+    key_positions = {
+    "q": (0, 0), "w": (1, 0), "e": (2, 0), "r": (3, 0), "t": (4, 0), "y": (5, 0), "u": (6, 0), "i": (7, 0), "o": (8, 0), "p": (9, 0),
+    "a": (0.5, 1), "s": (1.5, 1), "d": (2.5, 1), "f": (3.5, 1), "g": (4.5, 1), "h": (5.5, 1), "j": (6.5, 1), "k": (7.5, 1), "l": (8.5, 1),
+    "z": (1, 2), "x": (2, 2), "c": (3, 2), "v": (4, 2), "b": (5, 2), "n": (6, 2), "m": (7, 2)
+    }
+    
+    if key1 not in key_positions or key2 not in key_positions:
+        return -1  # Return -1 if either of the keys is not found in the dictionary
+
+    pos1 = key_positions[key1]
+    pos2 = key_positions[key2]
+
+    # Calculate Euclidean distance between the two key positions
+    distance = math.sqrt((pos1[0] - pos2[0])**2 + (pos1[1] - pos2[1])**2)
+    return distance
+    
 
 # Tests if the guess is correct
 def correct(guess, answer):
