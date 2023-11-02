@@ -12,7 +12,7 @@ importlib.reload(objects)
 from objects import spread_sheet, get_word
 
 # Copies the file with the spreadsheet to be changed at the end
-copy = open("/Users/Hudson/Programs/Python/3BLD/objects.py", "r").read()
+copy = open("objects.py", "r").read()
 
 
 
