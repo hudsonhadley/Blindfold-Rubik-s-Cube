@@ -28,14 +28,14 @@ while True:
         print("----------------------------------------------------------")
         print("Quiz:")
         print()
-        exec(open("/Users/Hudson/Programs/Python/3BLD/quiz.py").read())
+        exec(open("quiz.py").read())
 
     elif choice == "2":
         print()
         print("----------------------------------------------------------")
         print("Pairs:")
         print()
-        exec(open("/Users/Hudson/Programs/Python/3BLD/pairs.py").read())
+        exec(open("pairs.py").read())
 
     elif choice == ".":
         break
